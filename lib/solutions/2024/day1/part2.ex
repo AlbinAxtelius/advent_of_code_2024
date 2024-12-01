@@ -1,4 +1,4 @@
-defmodule AdventOfCode.Solutions.Year2024.Day1.Part1 do
+defmodule AdventOfCode.Solutions.Year2024.Day1.Part2 do
   @moduledoc false
 
   @test_data """
@@ -34,10 +34,14 @@ defmodule AdventOfCode.Solutions.Year2024.Day1.Part1 do
   end
 
   def solve(input) do
-    input
-    |> parse_input()
-    |> Tuple.to_list()
-    |> Enum.zip_reduce(0, fn [l, r], acc -> acc + abs(l - r) end)
+    {lx, rx} = parse_input(input)
+
+    frequencies = Enum.frequencies(rx)
+
+    lx
+    |> Enum.reduce(0, fn x, acc ->
+      acc + x * Map.get(frequencies, x, 0)
+    end)
   end
 
   def test(), do: solve(@test_data)
