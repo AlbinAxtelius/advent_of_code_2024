@@ -11,26 +11,19 @@ defmodule AdventOfCode.Solutions.Year2024.Day1.Part1 do
   """
 
   def parse_input(input) do
-    {_, {lx, rx}} =
+    {lx, rx} =
       input
       |> String.trim()
       |> String.split("\n")
-      |> Enum.map_reduce({[], []}, fn x, {lx, rx} ->
-        [l, r] = x |> String.split("   ") |> Enum.map(&String.to_integer/1)
-
-        {
-          [l, r],
-          {
-            [l | lx],
-            [r | rx]
-          }
-        }
+      |> Enum.map(fn x ->
+        x
+        |> String.split("   ")
+        |> Enum.map(&String.to_integer/1)
+        |> List.to_tuple()
       end)
+      |> Enum.unzip()
 
-    {
-      Enum.sort(rx),
-      Enum.sort(lx)
-    }
+    {Enum.sort(rx), Enum.sort(lx)}
   end
 
   def solve(input) do
