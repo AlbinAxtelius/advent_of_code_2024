@@ -15,7 +15,6 @@ defmodule AdventOfCode.MixProject do
   def application do
     [
       mod: {AdventOfCode, []},
-      applications: [:httpoison],
       extra_applications: [:logger]
     ]
   end
