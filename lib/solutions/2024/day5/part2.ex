@@ -65,9 +65,13 @@ defmodule AdventOfCode.Solutions.Year2024.Day5.Part2 do
     end
   end
 
-  def filter_rules_no_applicable(items, rules) do
+  def applicable_rules(items, rules) do
     invalid_keys =
-      MapSet.difference(MapSet.new(items), MapSet.new(Map.keys(rules))) |> MapSet.to_list()
+      MapSet.difference(
+        MapSet.new(items),
+        MapSet.new(Map.keys(rules))
+      )
+      |> MapSet.to_list()
 
     Map.drop(rules, invalid_keys)
     |> Map.to_list()
@@ -96,7 +100,7 @@ defmodule AdventOfCode.Solutions.Year2024.Day5.Part2 do
 
     items
     |> Enum.reduce([], fn x, acc ->
-      r = filter_rules_no_applicable(x, rules)
+      r = applicable_rules(x, rules)
 
       if not can_print_series?(x, r, %MapSet{}) do
         [Enum.sort(x, &sorter(&1, &2, r)) | acc]
