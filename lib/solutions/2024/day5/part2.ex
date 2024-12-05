@@ -95,14 +95,15 @@ defmodule AdventOfCode.Solutions.Year2024.Day5.Part2 do
       parse_input(input)
 
     items
-    |> Enum.filter(fn x ->
-      not can_print_series?(
-        x,
-        filter_rules_no_applicable(x, rules),
-        MapSet.new()
-      )
+    |> Enum.reduce([], fn x, acc ->
+      r = filter_rules_no_applicable(x, rules)
+
+      if not can_print_series?(x, r, %MapSet{}) do
+        [Enum.sort(x, &sorter(&1, &2, r)) | acc]
+      else
+        acc
+      end
     end)
-    |> Enum.map(fn x -> Enum.sort(x, &sorter(&1, &2, filter_rules_no_applicable(x, rules))) end)
     |> Enum.map(&Enum.at(&1, div(Enum.count(&1), 2)))
     |> Enum.map(&String.to_integer/1)
     |> Enum.sum()
