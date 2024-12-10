@@ -1,5 +1,7 @@
 defmodule Helpers.GridHelpers do
-  def to_coordinates(str) do
+  @spec to_coordinates(binary(), (binary() -> any())) :: %{{integer(), integer()} => any()}
+  @spec to_coordinates(binary()) :: %{{integer(), integer()} => term()}
+  def to_coordinates(str, transformer \\ fn x -> x end) do
     str
     |> String.split("\n")
     |> Enum.with_index()
@@ -7,7 +9,7 @@ defmodule Helpers.GridHelpers do
       row
       |> String.graphemes()
       |> Enum.with_index()
-      |> Enum.map(fn {value, x} -> {{x, y}, value} end)
+      |> Enum.map(fn {value, x} -> {{x, y}, apply(transformer, [value])} end)
     end)
     |> Enum.into(%{})
   end
