@@ -23,7 +23,8 @@ defmodule AdventOfCode.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:httpoison, "~> 2.0"}
+      {:httpoison, "~> 2.0"},
+      {:nx, "~> 0.9"}
     ]
   end
 end
